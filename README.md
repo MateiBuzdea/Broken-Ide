@@ -1,6 +1,6 @@
 # Broken-Ide
 
-Broken-Ide is an intentionally vulnerable web application based on Django framework that simulates an online C compiler/ide.
+Broken-Ide is an intentionally vulnerable web application based on the Django framework that simulates an online C compiler/ide.
 
 The application is meant for those who want to practice and improve their penetration testing skills.
 
@@ -17,7 +17,7 @@ Your goal is to hack your way onto the machine (if possible, without beforehand 
 The web application can be run in a docker container by running `build-docker.sh`. This will forward port 8000 on localhost.
 
 ```bash
-git clone https://github.com/MateiBuzdea/commander.git
+git clone https://github.com/MateiBuzdea/Broken-Ide.git
 cd Broken-Ide
 chmod +x ./build-docker.sh && ./build-docker.sh
 ```
@@ -36,10 +36,15 @@ python3 ./manage.py runserver 8000
 ```
 
 This will start the Django webserver directly on localhost. Note that Django package has to be installed and the flag will no more be hidden.
+If you opt for this configuration, make sure that Python has the `CAP_SYS_CHROOT` capability set:
+
+```
+setcap cap_sys_chroot+eip /usr/bin/python3.10
+```
 
 ### Sandbox configuration
 
-The sandbox where all the code snippets are run is placed under `app/brokenide/sandbox`. That folder simulates a filesystem and has minimal requirements to run code in it. That setup should be enough for you to exploit the server, but if you want to extend the functionality, you should check out this blog post: https://crossbowerbt.github.io/the_joy_of_chroot.html.
+The web server uses chroot in order to sandbox the user scripts. All the code snippets that are run are placed under `app/brokenide/sandbox`. That folder simulates a filesystem and has minimal requirements to run code in it. That setup should be enough for you to exploit the server, but if you want to extend the functionality, you should check out this blog post: https://crossbowerbt.github.io/the_joy_of_chroot.html.
 
 ## Notes
 
