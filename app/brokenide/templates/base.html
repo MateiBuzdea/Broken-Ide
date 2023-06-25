@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Broken-Ide</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  {% block js %}
+  {% endblock %}
+
+</head>
+
+<body style="background-color: rgb(62, 79, 97); padding-top: 55px;">
+
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: rgb(42, 67, 82);">
+    <a class="navbar-brand" href="{% url 'index' %}">Broken-Ide</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <main style="padding-bottom: 60px;">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer class="text-light py-3 fixed-bottom" style="background-color: rgb(42, 67, 82);">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="text-left">
+              &copy; Broken-Ide
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="text-right">
+              Powered by <a href="https://www.djangoproject.com/">Django Framework</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+{% block aditional %}
+{% endblock %}
+</html>

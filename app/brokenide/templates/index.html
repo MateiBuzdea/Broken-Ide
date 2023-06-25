@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid" style="background-image: url('/static/background-coding.jpeg'); background-size: cover;">
+  <div class="container">
+    <h1 class="display-4 text-white">Start your coding journey now!</h1>
+    <p class="lead text-white">
+        Broken-Ide is a web-based code editor that allows users to write, save, and run code in C language.
+        The IDE includes a CodeMirror editor with syntax highlighting and auto-completion for C code, as well as a console for displaying program output and errors.
+    </p>
+    <a class="btn btn-primary btn-lg" href="{% url 'code' %}" role="button">Start coding!</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'public_scripts' %}" role="button">Community scripts</a>
+  </div>
+</div>
+
+<div class="row mt-4 d-flex justify-content-center">
+  <div class="col-md-6">
+    <div class="card" style="background-color:rgb(60, 104, 112);">
+      <div class="card-body">
+        <h5 class="card-title d-flex justify-content-center text-white">Features</h5>
+        <ul class="list-group list-group-flush bg-dark">
+          <li class="list-group-item">Syntax highlighting and auto-completion for C code</li>
+          <li class="list-group-item">Console for displaying program output and errors</li>
+          <li class="list-group-item">Ability to save and load code snippets for future use</li>
+          <li class="list-group-item">Ability to share scripts with other users</li>
+          <li class="list-group-item">User-friendly interface with customizable themes and settings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

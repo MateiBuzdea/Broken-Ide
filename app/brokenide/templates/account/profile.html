@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for key, value in form.errors.items %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+  Error: {{ value }}
+</div>
+{% endfor %}
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<div id="errorBox" class="alert alert-success margin-left text-center" role="alert">
+{% else %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+{% endif %}
+  {{ message }}
+</div>
+{% endfor %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4 mt-4 mb-3">
+      <h2 class="text-center mb-3 text-white">My Profile</h2>
+      <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="email" class="form-label text-white">Username</label>
+          <input class="form-control" type="text" name="username" value="{{ user.username }}" autofocus autocapitalize="none" autocomplete="username" maxlength="50" required id="id_username">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">First Name</label>
+          <input class="form-control" type="text" name="first_name" value="{{ user.first_name }}" id="id_first_name">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">Last Name</label>
+          <input class="form-control" type="text" name="last_name" value="{{ user.last_name }}" id="id_last_name">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">IDE Theme</label>
+          <select class="form-control" name="theme" id="id_theme">
+            <option value="darcula" {% if user.theme == "darcula" %}selected{% endif %}>dark</option>
+            <option value="default" {% if user.theme == "default" %}selected{% endif %}>light</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

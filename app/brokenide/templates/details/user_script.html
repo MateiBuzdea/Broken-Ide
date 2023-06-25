@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/darcula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/edit/continuelist.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/edit/closebrackets.min.js"></script>
+<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
+
+<link rel="stylesheet" href="/static/console.css">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-3">
+  <div class="text-center">
+    <a class="text-white" href="{% url 'public_scripts' %}"><h6>Back</h6></a>
+  </div>
+  {% if script_content %}
+  <h1 class="text-center text-white">{{ username }}'s code snippet</h1>
+  <h5 class="text-center text-white">{{ script_name }}</h5>
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-8 mt-4 form-group">
+      <textarea id="code" name="script_content" class="form-control editor-container">{{ script_content }}</textarea>
+    </div>
+  </div>
+  {% else %}
+  <h3 class="text-center text-white">Script not found</h3>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block aditional %}
+<script>
+  var editor_area = document.getElementById("code");
+  var editor = CodeMirror.fromTextArea(editor_area, {
+      lineNumbers: true,
+      mode: "text/x-csrc",
+      theme: "{{ user.theme }}",
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      continueComments: "Enter"
+  });
+</script>
+{% endblock %}

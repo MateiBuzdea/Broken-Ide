@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block js %}
+<link rel="stylesheet" href="/static/console.css">
+{% endblock %}
+
+{% block content %}
+{% for message in messages %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+  {{ message }}
+</div>
+{% endfor %}
+
+<div class="container mb-3">
+  <h2 class="display-4 text-white text-center">Running {{ script_name }}</h2>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <h5 class="text-center text-white">Stdout</h5>
+      <div class="col-6 console-box mb-3">
+        <span id="stdout">...</span>
+      </div>
+      <h5 class="text-center text-white mb-3">Stderr</h5>
+      <div class="col-6 console-box">
+        <span id="stderr">...</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block aditional %}
+<script>
+var outSpan = document.getElementById("stdout");
+var errSpan = document.getElementById("stderr");
+
+function checkOutput() {
+    fetch("{% url 'check_script' %}")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(jsonResponse) {
+            outSpan.textContent = jsonResponse.stdout;
+            errSpan.textContent = jsonResponse.stderr;
+        });
+}
+
+setInterval(function() {
+    checkOutput();
+}, 3000);
+</script>
+{% endblock %}

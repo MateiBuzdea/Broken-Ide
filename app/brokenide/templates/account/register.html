@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for key, value in form.errors.items %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+  Error: {{ value }}
+</div>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+You are already logged in. <a href="{% url 'index' %}">Go back</a>
+</div>
+{% else %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4 mt-4">
+      <h2 class="text-center mb-3 text-white">Register</h2>
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="email" class="form-label text-white">Username</label>
+          <input class="form-control" type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="50" required id="id_username">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">First Name (optional)</label>
+          <input class="form-control" type="text" name="first_name" id="id_first_name">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">Last name (optional)</label>
+          <input class="form-control" type="text" name="last_name" id="id_last_name">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">Password</label>
+          <input class="form-control" type="password" name="password1" autocomplete="new-password" required id="id_password1">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">Repeat Password</label>
+          <input class="form-control" type="password" name="password2" autocomplete="new-password" required id="id_password2">
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Register</button>
+        <br>
+        <a href="{% url 'login' %}">Already have an account?</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mb-3">
+  <h3 class="display-4 text-white text-center">Public code snippets</h3>
+</div>
+
+<div class="container-fluid">
+  <div class="p-3" style="background-color: rgb(60, 104, 112);">
+    <!-- User saved scripts list -->
+    <ul class="list-group text-center">
+      {% for script in scripts %}
+      <li class="list-group-item"><a href="{% url 'script_detail' script.user script.file_name %}">{{ script.user }} - {{ script.name }}</a>
+      {% empty %}
+      <li class="list-group-item">No community scripts found.</li>
+      {% endfor %}
+      </form>
+    </ul>
+  </div>
+</div>
+{% endblock %}

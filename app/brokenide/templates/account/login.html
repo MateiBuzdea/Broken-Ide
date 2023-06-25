@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if form.errors %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+  Your username and password didn't match. Please try again.
+</div>
+{% endif %}
+
+{% if user.is_authenticated %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+You are already logged in. <a href="{% url 'index' %}">Go back</a>
+</div>
+{% else %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4 mt-4">
+      <h2 class="text-center mb-3 text-white">Login</h2>
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="email" class="form-label text-white">Username</label>
+          <input class="form-control" type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="50" required id="id_username">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label text-white">Password</label>
+          <input class="form-control" type="password" name="password" autocomplete="current-password" required id="id_password">
+        </div>
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <br>
+        <a href="{% url 'register' %}">Create account?</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+.CodeMirror {
+  height: 450px;
+  width: 100%;
+}
+.CodeMirror-scroll {
+  height: 100%;
+}
+.console-box {
+  background-color: #222;
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 800px;
+  border-radius: 0.5rem;
+  height: 200px;
+  overflow-y: scroll;
+}
+.console-box + .console-box {
+  margin-top: 2rem;
+}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/darcula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/edit/continuelist.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/edit/closebrackets.min.js"></script>
+<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
+
+<link rel="stylesheet" href="/static/console.css">
+{% endblock %}
+
+
+{% block content %}
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<div id="errorBox" class="alert alert-success margin-left text-center" role="alert">
+{% else %}
+<div id="errorBox" class="alert alert-danger margin-left text-center" role="alert">
+{% endif %}
+  {{ message }}
+</div>
+{% endfor %}
+
+<div class="container-fluid" style="color: white">
+  <div class="row mx-0">
+
+    <div class="col-md-8 mb-3 mb-md-0">
+      <div class="p-3" style="background-color: rgb(60, 104, 112);">
+        <!-- IDE -->
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="code"><h4>Code!</h4></label>
+            <textarea id="code" name="script_content" class="form-control editor-container">{% if saved_script %}{{ saved_script_content }}{% else %}// write your code here{% endif %}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="script_name">Name:</label>
+            <input type="text" style="background-color: white" id="script_name" name="name" class="form-control" placeholder="example" value="{% if saved_script %}{{ saved_script.name }}{% endif %}"/>
+          </div>
+          <div class="form-group">
+            <label for="public" class="form-check-label">Public:</label>
+            <input type="checkbox" style="margin-left: 10px;" id="public" name="public" class="form-check-input"/>
+          </div>
+          <button type="submit" class="btn btn-primary" formaction="{% url 'run_script' %}">Run</button>
+          <button type="submit" class="btn btn-primary" formaction="{% url 'save_script' %}">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-3 float-md-right">
+      <div class="p-3" style="background-color:rgb(60, 104, 112)">
+        <div class="container mb-3">
+          <h5 class="display-5 text-white text-center">Saved scripts</h5>
+        </div>
+        <!-- User saved scripts list -->
+        <ul class="list-group">
+          <form method="post">
+          {% csrf_token %}
+          {% for script in user_scripts %}
+            <li class="list-group-item d-flex justify-content-between align-items-center"><a href="{% url 'code_detail' script.name %}">{{script.name}}</a>
+            <button type="submit" class="btn btn-primary" name="name" formaction="{% url 'delete_script' script.name %}">Delete</button>
+          {% empty %}
+            <li class="list-group-item text-dark">No scripts saved yet.</li>
+          {% endfor %}
+          </form>
+        </ul>
+      </div>
+      <br>
+      <div class="p-3" style="background-color:rgb(60, 104, 112)">
+        <div class="container mb-3">
+          <h5 class="display-5 text-white text-center">Limitations</h5>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item text-center text-dark">Scripts must be saved first, then run</li>
+          <li class="list-group-item text-center text-dark">Some functions, such as system(), may not work</li>
+          <li class="list-group-item text-center text-dark">Integration for user input is still under development</li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}
+
+{% block aditional %}
+<script>
+    var editor_area = document.getElementById("code");
+    var editor = CodeMirror.fromTextArea(editor_area, {
+        lineNumbers: true,
+        mode: "text/x-csrc",
+        theme: "{{ user.theme }}",
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        continueComments: "Enter"
+    });
+</script>
+{% endblock %}
